@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timestamp Generator</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
         body {
             display: flex;
             flex-direction: column;
@@ -12,23 +17,49 @@
             justify-content: center;
             height: 100vh;
             font-family: Arial, sans-serif;
+            padding: 10px;
+            text-align: center;
         }
-        #timestamp {
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        #timestampList {
             margin-top: 20px;
-            font-size: 1.5em;
-            color: #333;
+            width: 100%;
+            max-width: 400px;
+            list-style-type: none;
+            padding: 0;
+        }
+        #timestampList li {
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            font-size: 1em;
+            word-wrap: break-word;
         }
     </style>
 </head>
 <body>
-    <h1>Generate Current Timestamp</h1>
+    <h1>Timestamp Generator</h1>
     <button onclick="generateTimestamp()">Get Current Timestamp</button>
-    <div id="timestamp"></div>
+    <ul id="timestampList"></ul>
 
     <script>
         function generateTimestamp() {
-            const timestamp = new Date().toLocaleString();
-            document.getElementById('timestamp').textContent = `Current Timestamp: ${timestamp}`;
+            const now = new Date();
+            const timestamp = `${now.toLocaleString()}.${now.getMilliseconds().toString().padStart(3, '0')}`;
+            const listItem = document.createElement("li");
+            listItem.textContent = `Timestamp: ${timestamp}`;
+            document.getElementById("timestampList").prepend(listItem);
         }
     </script>
 </body>
