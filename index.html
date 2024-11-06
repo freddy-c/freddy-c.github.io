@@ -46,7 +46,10 @@
             list-style-type: none;
             padding: 0;
         }
-        #timestampList li {
+        .timestamp-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: #f0f0f0;
             border: 1px solid #ccc;
             padding: 12px;
@@ -54,6 +57,19 @@
             border-radius: 5px;
             font-size: 1em;
             word-wrap: break-word;
+        }
+        .copy-button {
+            padding: 5px 10px;
+            font-size: 0.9em;
+            cursor: pointer;
+            border: none;
+            background-color: #008CBA;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .copy-button:hover {
+            background-color: #007bb5;
         }
     </style>
 </head>
@@ -66,9 +82,35 @@
         function generateTimestamp() {
             const now = new Date();
             const timestamp = `${now.toLocaleString()}.${now.getMilliseconds().toString().padStart(3, '0')}`;
+            
+            // Create list item with timestamp
             const listItem = document.createElement("li");
-            listItem.textContent = `Timestamp: ${timestamp}`;
+            listItem.classList.add("timestamp-item");
+
+            // Add timestamp text
+            const timestampText = document.createElement("span");
+            timestampText.textContent = `Timestamp: ${timestamp}`;
+            
+            // Add copy button
+            const copyButton = document.createElement("button");
+            copyButton.textContent = "Copy";
+            copyButton.classList.add("copy-button");
+            copyButton.onclick = () => copyToClipboard(timestamp);
+
+            // Append timestamp and button to list item
+            listItem.appendChild(timestampText);
+            listItem.appendChild(copyButton);
+
+            // Add the list item to the top of the list
             document.getElementById("timestampList").prepend(listItem);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Timestamp copied to clipboard!");
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
+            });
         }
     </script>
 </body>
