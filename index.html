@@ -95,7 +95,7 @@
             const copyButton = document.createElement("button");
             copyButton.textContent = "Copy";
             copyButton.classList.add("copy-button");
-            copyButton.onclick = () => copyToClipboard(timestamp);
+            copyButton.onclick = () => copyToClipboard(timestamp, copyButton);
 
             // Append timestamp and button to list item
             listItem.appendChild(timestampText);
@@ -105,9 +105,12 @@
             document.getElementById("timestampList").prepend(listItem);
         }
 
-        function copyToClipboard(text) {
+        function copyToClipboard(text, button) {
             navigator.clipboard.writeText(text).then(() => {
-                alert("Timestamp copied to clipboard!");
+                button.textContent = "Copied!";
+                setTimeout(() => {
+                    button.textContent = "Copy";
+                }, 2000); // Change back to "Copy" after 2 seconds
             }).catch(err => {
                 console.error("Could not copy text: ", err);
             });
